@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: Roboto, sans-serif;
+        font-weight: 700;
+    }
+}
+@font-face {
+	font-family: 'TT Norms';
+	src: local('TT Norms Medium'), local('TTNorms-Medium'),
+			url('fonts/TTNorms-Medium.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+#app {
+    @apply w-full relative
+}
+
+body {
+    @apply overflow-x-hidden min-h-screen sm:overflow-y-hidden sh:overflow-y-auto
+}
+.montserrat{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+
+}
+.TTNorms{
+	font-family: 'TT Norms';
+}
+.scrollbar-hide {
+    /* Chrome, Safari, Opera */
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Firefox */
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+
+.text-stroke {
+    -webkit-text-stroke: 4px #5029de;
+    paint-order: stroke fill;
+}
+
+button:hover,
+a:hover {
+    @apply sm:transition-[all_.2s_ease-in-out] hover:scale-[.97] sm:hover:brightness-[.9] max-sm:bg-[#5029de57]
+}
