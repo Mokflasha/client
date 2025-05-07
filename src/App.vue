@@ -11,8 +11,15 @@ import EntryConditionsModal from "@/components/Modals/EntryConditionsModal.vue";
 import PrivacyAgreementModal from "@/components/Modals/PrivacyAgreementModal.vue";
 import PolicyModal from "@/components/Modals/PolicyModal.vue";
 
-const isTouched = ref(false)
+const touchedIndex = ref<number | null>(null)
+const isTouchedRegister = ref(false)
 
+const handleTouchStart = (index: number) => {
+  touchedIndex.value = index
+}
+const handleTouchEnd = () => {
+  touchedIndex.value = null
+}
 const TOURNAMENT_DATE = "2025-05-24T00:00:00";
 
 const showFeeModal = ref(false);
@@ -157,14 +164,16 @@ const leave = (el: Element, done: () => void) => {
           <h2 class="text-[27px] sm:hidden font-medium mt-[20px]">Махачкала, Дворец спорта "Автодор"</h2>
           <h2 class="text-[27px] sm:hidden font-medium">24–25 Мая, 2025</h2>
           <Button
-              @click="openForm"
-              variant="primary"
-              class="sm:hidden ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase w-fit 
-         bg-gradient-to-r from-[#5029de] to-[#4124ab] text-white
-         shadow-[0_0_10px_#5029de] hover:shadow-[0_0_20px_#5029de]
-         transition duration-300 ease-in-out
-         active:scale-[0.97] active:brightness-90 rounded-3xl"
-          >Зарегистрироваться
+          @click="openForm"
+  @touchstart="handleTouchStart"
+  @touchend="handleTouchEnd"
+  @touchcancel="handleTouchEnd"
+  variant="primary"
+  class="ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+  :class="isTouchedRegister
+    ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+    : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'"
+>Зарегистрироваться
           </Button>
 
         </div>
@@ -175,65 +184,47 @@ const leave = (el: Element, done: () => void) => {
       <div class="flex flex-col-reverse sm:flex-col gap-4 w-full items-center">
         <nav>
 						<div class="sm:bg-black/80 sm:py-5 sm:px-[200px] rounded-lg flex flex-col sm:grid gap-3  uppercase text-center text-[clamp(0.9rem,1.2vw,1.1rem)]  grid-cols-2"> 
-							<a
-				@click="showFeeModal = true"
-				class="ripple-btn cursor-pointer select-none touch-manipulation
-					bg-black/30 rounded-xl px-6 py-5 font-normal text-sm
-					ring-1 ring-[#5029de]/50 shadow-[0_0_6px_#5029de]
-					transition-all duration-150 ease-out
-					hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]
-					active:bg-[#5029de]/70 active:scale-90 active:shadow-[0_0_18px_#5029de]
-					focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]"
-			>
-				Оплата взноса и страховка
-							</a>
-							<a
-								@click="showConditionsModal = true"
-								class="ripple-btn cursor-pointer select-none touch-manipulation
-									bg-black/30 rounded-xl px-6 py-5 font-normal text-sm
-									ring-1 ring-[#5029de]/50 shadow-[0_0_6px_#5029de]
-									transition-all duration-150 ease-out
-									hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]
-									active:bg-[#5029de]/70 active:scale-90 active:shadow-[0_0_18px_#5029de]
-									focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]"
-							>
-								Условия допуска
-							</a>
-							<a
-								download
-								href="#"
-								class="ripple-btn cursor-pointer select-none touch-manipulation
-									bg-black/30 rounded-xl px-6 py-5 font-normal text-sm
-									ring-1 ring-[#5029de]/50 shadow-[0_0_6px_#5029de]
-									transition-all duration-150 ease-out
-									hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]
-									active:bg-[#5029de]/70 active:scale-90 active:shadow-[0_0_18px_#5029de]
-									focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]"
-							>
-								Скачать регламент
-							</a>
-							<a 
-								href="#"
-								@touchstart="isTouched = true"
-								@touchend="isTouched = false"
-								@touchcancel="isTouched = false"
-								:class="[
-										'ripple-btn cursor-pointer select-none touch-manipulation',
-										'rounded-xl px-6 py-5 font-normal text-sm',
-										'ring-1 ring-[#5029de]/50 transition-all duration-150 ease-out',
-										'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
-										isTouched
-											? 'bg-[#5029de]/70 text-white scale-90 shadow-[0_0_18px_#5029de]'
-											: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
-									]"	>
-								Список участников
-							</a>
+              <a
+                v-for="(item, index) in [
+                  { label: 'Оплата взноса и страховка', action: () => showFeeModal = true },
+                  { label: 'Условия допуска', action: () => showConditionsModal = true },
+                  { label: 'Скачать регламент', href: '#', download: true },
+                  { label: 'Список участников', href: '#' }
+                ]"
+                :key="index"
+                :href="item.href || undefined"
+                :download="item.download || false"
+                @click="item.action && item.action()"
+                @touchstart="handleTouchStart(index)"
+                @touchend="handleTouchEnd"
+                @touchcancel="handleTouchEnd"
+                :class="[
+                  'ripple-btn cursor-pointer select-none touch-manipulation',
+                  'rounded-xl px-6 py-5 font-normal text-sm',
+                  'ring-1 ring-[#5029de]/50 transition-all duration-150 ease-out',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
+                  touchedIndex === index
+                    ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+                    : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
+                ]"
+              >
+                {{ item.label }}
+              </a>
 						</div>
         </nav>
 				<h2 class="text-[27px] max-sm:hidden font-medium leading-[15px]">Махачкала, Дворец спорта "Автодор"</h2>
 				<h2 class="text-[27px] max-sm:hidden font-medium leading-[22px]">24–25 Мая, 2025</h2>
-        <Button @click="openForm" variant="primary"
-                class="max-sm:hidden ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit">
+        <Button
+          @click="openForm"
+          @touchstart="handleTouchStart"
+          @touchend="handleTouchEnd"
+          @touchcancel="handleTouchEnd"
+          variant="primary"
+          class="max-sm:hidden ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+          :class="isTouchedRegister
+            ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+            : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'"
+        >
           зарегистрироваться
         </Button>
 

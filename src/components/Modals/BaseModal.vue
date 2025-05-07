@@ -42,13 +42,13 @@ onBeforeUnmount(() => unlockScroll())
       ></div>
 
       <!-- Модалка -->
-      <transition name="slide-down" appear>
+      <transition name="slide-down " appear>
         <div
           v-show="modelValue"
-          class=" bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[99vh] max-sm:max-h-[80vh]  z-50 flex flex-col pointer-events-auto"
+          class=" bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[99vh] max-sm:max-h-[85vh] z-50 flex flex-col pointer-events-auto"
         >
 
-          <div class="overflow-y-auto max-h-[99vh] max-sm:max-h-[80vh] scrollbar-hide">
+          <div class="overflow-y-auto max-h-[99vh] max-sm:max-h-[85vh] scrollbar-hide">
 						<div class="border-b flex justify-end ">
 							<button
 							@click="close"
@@ -103,48 +103,3 @@ onBeforeUnmount(() => unlockScroll())
 }
 </style>
 
-
-/* 
-.fade-backdrop-enter-active,
-.fade-backdrop-leave-active {
-  transition: opacity 0.25s ease;
-}
-
-.fade-backdrop-enter-from,
-.fade-backdrop-leave-to {
-  opacity: 0;
-}
-
-.fade-backdrop-enter-to,
-.fade-backdrop-leave-from {
-  opacity: 1;
-} 
-.fade-backdrop-enter-active,
-.fade-backdrop-leave-active {
-  transition: all 4s ease-in-out;
-}
-
-.fade-backdrop-enter-from,
-.fade-backdrop-leave-to {
-  opacity: 0;
-}
-
-.fade-backdrop-enter-to,
-.fade-backdrop-leave-from {
-  opacity: 1;
-}
-
-
-.slide-down-enter-active {
-  transition: all 4s ease;
-}
-
-.slide-down-enter-from {
-  transform: translateY(-40px);
-  opacity: 0;
-}
-
-.slide-down-enter-to {
-  transform: translateY(0);
-  opacity: 1;
-} */
