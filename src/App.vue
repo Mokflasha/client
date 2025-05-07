@@ -201,7 +201,7 @@ const leave = (el: Element, done: () => void) => {
                 :class="[
                   'ripple-btn cursor-pointer select-none touch-manipulation',
                   'rounded-xl px-6 py-5 font-normal text-sm',
-                  'ring-1 ring-[#5029de]/50 transition-all duration-150 ease-out',
+                  'ring-2 ring-[#5029de] transition-all duration-150 ease-out',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
                   touchedIndex === index
                     ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
