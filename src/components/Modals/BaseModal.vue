@@ -33,7 +33,7 @@ onBeforeUnmount(() => unlockScroll())
   <transition name="fade" appear>
     <div
       v-show="modelValue"
-      class="fixed inset-0 z-[100] flex items-center justify-center px-2 pointer-events-none"
+      class="fixed modal inset-0 z-[100] flex items-center justify-center px-2 pointer-events-none"
     >
       <!-- Фон -->
       <div
@@ -45,10 +45,10 @@ onBeforeUnmount(() => unlockScroll())
       <transition name="slide-down " appear>
         <div
           v-show="modelValue"
-          class=" bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[99vh] max-sm:max-h-[85vh] z-50 flex flex-col pointer-events-auto"
+          class=" bg-white modal-dialog rounded-xl overflow-y-auto shadow-xl max-w-lg w-full max-h-[99vh] z-50 flex flex-col pointer-events-auto"
         >
 
-          <div class="overflow-y-auto max-h-[99vh] max-sm:max-h-[85vh] scrollbar-hide">
+          <div class="overflow-y-auto modal-content max-h-[99vh] max-sm:max-h-[85vh] scrollbar-hide">
 						<div class="border-b flex justify-end ">
 							<button
 							@click="close"
@@ -100,6 +100,36 @@ onBeforeUnmount(() => unlockScroll())
 .slide-down-leave-to {
   transform: translateY(-100px);
 
+}
+.modal {
+    overflow: auto;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0
+}
+
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    background-clip: padding-box;
+    outline: 0;
 }
 </style>
 

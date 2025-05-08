@@ -207,6 +207,7 @@ const leave = (el: Element, done: () => void) => {
                     ? 'bg-[#5029de] text-white shadow-[0_0_30px_#5029de]'
                     : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
                 ]"
+								:style="{ '-webkit-tap-highlight-color': 'transparent' }"
               >
                 {{ item.label }}
               </a>
@@ -285,8 +286,7 @@ const leave = (el: Element, done: () => void) => {
   overflow: hidden;
   cursor: pointer;
   user-select: none;
-  touch-action: manipulation; /* для мобильных устройств */
-  transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 /* Для анимации эффекта при нажатии */
@@ -317,8 +317,9 @@ const leave = (el: Element, done: () => void) => {
 /* Свечение при фокусе и при касании */
 .ripple-btn:focus-visible,
 .ripple-btn:hover {
-  box-shadow: 0 0 10px rgba(80, 41, 222, 0.8);
-  text-shadow: 0 0 5px rgba(80, 41, 222, 0.6);
+  box-shadow: 0 0 30px rgb(80, 41, 222);
+  text-shadow: 0 0 5px rgb(80, 41, 222);
+	background: rgb(80, 41, 222);
 }
 
 /* Для мобильных устройств */

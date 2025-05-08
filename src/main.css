@@ -26,6 +26,11 @@
 body {
     @apply overflow-x-hidden min-h-screen sm:overflow-y-hidden overflow-y-auto
 }
+
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .montserrat{
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
