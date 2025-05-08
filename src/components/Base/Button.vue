@@ -17,12 +17,12 @@ const emits = defineEmits<{
 }>();
 
 const computedClasses = computed(() => {
-  const base = "px-8 py-3 rounded-[5px] font-medium transition shadow-md";
-  const disabledClass = props.disabled ? "opacity-50 cursor-not-allowed" : "hover:scale-95";
+  const base = "px-8 py-3 rounded-[5px]  font-medium transition shadow-md";
+  const disabledClass = props.disabled ? "opacity-50  cursor-not-allowed" : "hover:scale-20";
 
   const variants: Record<ButtonVariant, string> = {
-    primary: "bg-gradient-to-r from-[#5029de] to-[#4124ab] text-white",
-    secondary: "bg-black/30 border-2 border-[#5029de] text-white",
+    primary: "bg-gradient-to-r from-[#5029de]  to-[#4124ab] text-white",
+    secondary: "bg-black/30 border-2 border-[#5029de]  text-white",
   };
 
   const variantClass = variants[props.variant || "primary"];

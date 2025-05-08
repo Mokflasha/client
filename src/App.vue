@@ -109,7 +109,7 @@ const leave = (el: Element, done: () => void) => {
 <template>
   <div class="min-h-screen w-full relative overflow-x-hidden" :class="showForm ? 'touch-none' : ''">
     <div class="flex justify-between sm:justify-center p-5 items-center">
-      <div class="flex sm:flex-col items-center justify-center">
+      <div class="flex sm:flex-col items-center sm:hidden  justify-center">
         <img src="./assets/images/logo.png" alt="logo" class="w-[75px]"/>
         <p class="text-white font-extrabold ml-2 mt-2 w-[180px] sm:w-full">Alliance Cup Championship</p>
       </div>
@@ -172,16 +172,18 @@ const leave = (el: Element, done: () => void) => {
     <div class="text-white px-[5vw] sm:pt-1 max-sm:pt-8 flex flex-col items-center gap-4">
 
       <div class="flex flex-col gap-2">
-        <div
-            class="flex flex-col justify-evenly items-center border-2 border-[#44008C] bg-black/50 px-[2vw] py-[2vh] h-[200px] sm:h-auto
-         shadow-[0_8px_20px_#44008C]">
-          <h1 class="sm:mb-0 mb-4 uppercase text-stroke text-center text-2xl text-glow">
-            Open Grappling Tournament 2025
-          </h1>
+        <div class="flex flex-col justify-evenly items-center border-[3px] border-[#44008C] bg-black/50 px-[2vw] sm:pt-[6vh] sm:pb-[1vh] sm:px-[6vw] py-[2vh] h-[200px] sm:h-auto
+         shadow-[0_0_30px_#44008C]">
+				 <h1 class="sm:mb-0 mb-4 uppercase text-center sm:hidden  text-2xl text-white text-glow">
+						Open Grappling Tournament 2025
+					</h1>
+					<h1 class="sm:mb-0 title-desk mb-4 uppercase text-center text-[96px] max-sm:hidden  text-2xl text-white text-glow ">
+						ALLIANCE CHAMPIONSHIP 2025
+					</h1>
           <!--    Где href нужно будет ввести ссылку на расписание оно уже откроется на новой странице      -->
-          <a href="#" target="_blank" class="
-          sm:hidden text-[clamp(.9rem,1.5vw,1.25rem)] rounded-3xl uppercase w-fit
-          px-8 py-3 font-medium transition shadow-md
+          <a href="#" target="_blank" class=" sm:rounded-[2px] sm:ring-[#44008C] sm:py-4 sm:mt-[40px] sm:text-[clamp(1rem,1vw,1rem)] sm:bg-[#44008C]
+          text-[clamp(.9rem,1.5vw,1.25rem)] rounded-3xl uppercase w-fit
+          px-8 py-3 font-medium transition shadow-md 
           bg-gradient-to-r from-[#5029de] to-[#4124ab] text-white
           ">
             РАСПИСАНИЕ ТУРНИРА
@@ -211,26 +213,31 @@ const leave = (el: Element, done: () => void) => {
       <PolicyModal v-model="showPolicy"/>
       <div class="flex flex-col-reverse sm:flex-col gap-4 w-full items-center">
         <nav>
-						<div class="sm:bg-black/80 sm:py-5 sm:px-[200px] rounded-lg flex flex-col sm:grid gap-3  uppercase text-center text-[clamp(0.9rem,1.2vw,1.1rem)]  grid-cols-2"> 
-              <a
-                v-for="(item, index) in [
-                  { label: 'Оплата взноса и страховка', action: () => showFeeModal = true },
-                  { label: 'Условия допуска', action: () => showConditionsModal = true },
-                  { label: 'Скачать регламент', href: '#', download: true },
-                  { label: 'Список участников', href: '#' }
-                ]"
-                :key="index"
-                :href="item.href || undefined"
-                :download="item.download || false"
-                @click="item.action && item.action()"
-                @touchstart="handleTouchStart(index)"
-                @touchend="handleTouchEnd"
-                @touchcancel="handleTouchEnd"
+					<div class="sm:btn-div sm:bg-black/70 sm:rounded-[10px] sm:pb-9 sm:pt-1 sm:px-[300px] rounded-lg flex flex-col uppercase text-center text-[clamp(0.9rem,1.2vw,1.1rem)]  "> 
+						<p class="text-[27px] desc-btn-div roboto max-sm:hidden">24.05.2025</p>
+						<div class="rounded-lg flex flex-col sm:grid gap-3 sm:gap-2 uppercase text-center text-[clamp(0.9rem,1.2vw,1.1rem)]  grid-cols-2"> 
+							<a
+								v-for="(item, index) in [
+									{ label: 'Условия допуска', action: () => showConditionsModal = true, full: false },
+									{ label: 'Скачать регламент', href: '#', download: true, full: false },
+									{ label: 'Список участников', href: '#', full: true },
+									{ label: 'Оплата взноса и страховка', action: () => showFeeModal = true, full: true, firstMobile: true }
+								]"
+								:key="index"
+								:href="item.href || undefined"
+								:download="item.download || false"
+								@click="item.action && item.action()"
+								@touchstart="handleTouchStart(index)"
+								@touchend="handleTouchEnd"
+								@touchcancel="handleTouchEnd"
 								:class="[
-									'ripple-btn cursor-pointer select-none touch-manipulation',
+									'max-sm:ripple-btn main-btn cursor-pointer select-none touch-manipulation',
 									'rounded-xl px-6 py-5 font-normal text-sm',
-									'ring-2 ring-[#5029de] transition-all duration-150 ease-out',
+									'ring-2 ring-[#5029de] transition-all duration-150 ease-out text-[clamp(0.9rem,1.2vw,1.1rem)]',
 									'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
+									'sm:rounded-[2px] sm:ring-[#44008C] sm:py-4 sm:text-[clamp(1.5rem,1.2vw,2rem)] sm:bg-[#44008C]',
+									item.full ? 'col-span-2' : '',
+									item.firstMobile ? 'order-[-1] sm:order-none' : '',
 									touchedIndex === index
 										? 'bg-[#5029de] text-white shadow-[0_0_30px_#5029de]'
 										: justReleasedIndex === index
@@ -238,12 +245,13 @@ const leave = (el: Element, done: () => void) => {
 											: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
 								]"
 								:style="{ '-webkit-tap-highlight-color': 'transparent' }"
-              >
-                {{ item.label }}
-              </a>
+							>
+								{{ item.label }}
+							</a>
 						</div>
+					</div>
         </nav>
-				<h2 class="text-[27px] max-sm:hidden font-medium leading-[15px]">Махачкала, Дворец спорта "Автодор"</h2>
+				<h2 class="text-[27px] max-sm:hidden font-medium leading-[15px] roboto">Махачкала, Дворец спорта "Автодор"</h2>
 				<h2 class="text-[27px] max-sm:hidden font-medium leading-[22px]">24–25 Мая, 2025</h2>
         <Button
           @click="openForm"
@@ -309,7 +317,7 @@ const leave = (el: Element, done: () => void) => {
 
 <style>
 .text-glow {
-  filter: drop-shadow(4px 5px 40px #B413FF);
+  filter: drop-shadow(0px 0px 2px #B413FF);
 }
 .ripple-btn {
   position: relative;
@@ -352,10 +360,26 @@ const leave = (el: Element, done: () => void) => {
 	background: rgb(80, 41, 222);
 }
 
+@media (max-width: 1350px) {
+  .title-desk{
+		font-size: 50px;
+	}
+	.desc-btn-div{
+		font-size: 20px;
+	}
+	.btn-div{
+		padding-inline: 150px;
+		padding-bottom: 15px;
+	}
+	.main-btn{
+		font-size: 15px;
+		padding-block: 15px;
+	}
+}
 /* Для мобильных устройств */
 @media (max-width: 768px) {
   .ripple-btn {
-    padding: 12px 20px;
+    padding: 10px 20px;
     font-size: 14px;
   }
 
