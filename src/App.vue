@@ -360,7 +360,7 @@ const leave = (el: Element, done: () => void) => {
 	background: rgb(80, 41, 222);
 }
 
-@media (max-width: 1350px) {
+@media (max-width: 1600px) {
   .title-desk{
 		font-size: 50px;
 	}
