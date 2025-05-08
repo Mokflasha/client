@@ -268,7 +268,6 @@ const leave = (el: Element, done: () => void) => {
         </Button>
 
         <CountdownTimer
-            title="До турнира осталось:"
             :times="[
             { value: days, label: dayLabel },
             { value: hours, label: hourLabel },
