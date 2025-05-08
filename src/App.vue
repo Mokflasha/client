@@ -164,16 +164,16 @@ const leave = (el: Element, done: () => void) => {
           <h2 class="text-[27px] sm:hidden font-medium mt-[20px]">Махачкала, Дворец спорта "Автодор"</h2>
           <h2 class="text-[27px] sm:hidden font-medium">24–25 Мая, 2025</h2>
           <Button
-          @click="openForm"
-  @touchstart="handleTouchStart"
-  @touchend="handleTouchEnd"
-  @touchcancel="handleTouchEnd"
-  variant="primary"
-  class="ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
-  :class="isTouchedRegister
-    ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
-    : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'"
->Зарегистрироваться
+						@click="openForm"
+						@touchstart="handleTouchStart"
+						@touchend="handleTouchEnd"
+						@touchcancel="handleTouchEnd"
+						variant="primary"
+						class="ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+						:class="isTouchedRegister
+							? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+							: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white sm:hidden hover:shadow-[0_0_14px_#5029de]'"
+					>Зарегистрироваться
           </Button>
 
         </div>
@@ -204,7 +204,7 @@ const leave = (el: Element, done: () => void) => {
                   'ring-2 ring-[#5029de] transition-all duration-150 ease-out',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
                   touchedIndex === index
-                    ? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+                    ? 'bg-[#5029de] text-white shadow-[0_0_30px_#5029de]'
                     : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
                 ]"
               >
