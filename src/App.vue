@@ -5,7 +5,7 @@ import CountdownTimer from "@/components/CountdownTimer.vue";
 import Button from "@/components/Base/Button.vue";
 import {useCountdown} from "@/composables/useCountdown";
 import {useModalController} from "@/composables/useModalController";
-import {ref} from "vue";
+import {ref, onMounted, onBeforeUnmount } from "vue";
 import FeeModal from "@/components/Modals/FeeModal.vue";
 import EntryConditionsModal from "@/components/Modals/EntryConditionsModal.vue";
 import PrivacyAgreementModal from "@/components/Modals/PrivacyAgreementModal.vue";
@@ -13,13 +13,41 @@ import PolicyModal from "@/components/Modals/PolicyModal.vue";
 
 const touchedIndex = ref<number | null>(null)
 const isTouchedRegister = ref(false)
+const justReleasedIndex = ref<number | null>(null)
 
 const handleTouchStart = (index: number) => {
   touchedIndex.value = index
+  justReleasedIndex.value = null
 }
+
 const handleTouchEnd = () => {
+  if (touchedIndex.value !== null) {
+    justReleasedIndex.value = touchedIndex.value
+    setTimeout(() => {
+      if (justReleasedIndex.value === touchedIndex.value) {
+        justReleasedIndex.value = null
+      }
+    }, 250)
+  }
   touchedIndex.value = null
 }
+
+onMounted(() => {
+  document.addEventListener('touchstart', handleOutsideTouch, true)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('touchstart', handleOutsideTouch, true)
+})
+
+const handleOutsideTouch = (e: TouchEvent) => {
+  const target = e.target as HTMLElement
+  if (!target.closest('.ripple-btn')) {
+    touchedIndex.value = null
+    justReleasedIndex.value = null
+  }
+}
+
 const TOURNAMENT_DATE = "2025-05-24T00:00:00";
 
 const showFeeModal = ref(false);
@@ -169,9 +197,9 @@ const leave = (el: Element, done: () => void) => {
 						@touchend="handleTouchEnd"
 						@touchcancel="handleTouchEnd"
 						variant="primary"
-						class="ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+						class="text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
 						:class="isTouchedRegister
-							? 'bg-[#5029de] text-white scale-90 shadow-[0_0_18px_#5029de]'
+							? 'bg-[#241259] text-white scale-90 shadow-[0_0_18px_#5029de]'
 							: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white sm:hidden hover:shadow-[0_0_14px_#5029de]'"
 					>Зарегистрироваться
           </Button>
@@ -198,15 +226,17 @@ const leave = (el: Element, done: () => void) => {
                 @touchstart="handleTouchStart(index)"
                 @touchend="handleTouchEnd"
                 @touchcancel="handleTouchEnd"
-                :class="[
-                  'ripple-btn cursor-pointer select-none touch-manipulation',
-                  'rounded-xl px-6 py-5 font-normal text-sm',
-                  'ring-2 ring-[#5029de] transition-all duration-150 ease-out',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
-                  touchedIndex === index
-                    ? 'bg-[#5029de] text-white shadow-[0_0_30px_#5029de]'
-                    : 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
-                ]"
+								:class="[
+									'ripple-btn cursor-pointer select-none touch-manipulation',
+									'rounded-xl px-6 py-5 font-normal text-sm',
+									'ring-2 ring-[#5029de] transition-all duration-150 ease-out',
+									'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5029de]',
+									touchedIndex === index
+										? 'bg-[#5029de] text-white shadow-[0_0_30px_#5029de]'
+										: justReleasedIndex === index
+											? 'bg-[#1e0c9f]/80 text-white shadow-[0_0_20px_#1e0c9f]'
+											: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
+								]"
 								:style="{ '-webkit-tap-highlight-color': 'transparent' }"
               >
                 {{ item.label }}
