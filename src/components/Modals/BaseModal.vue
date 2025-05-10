@@ -28,42 +28,41 @@ onMounted(() => {
 })
 onBeforeUnmount(() => unlockScroll())
 </script>
-
 <template>
   <transition name="fade" appear>
     <div
       v-show="modelValue"
-      class="fixed  inset-0 z-[100] flex items-center justify-center px-2 pointer-events-none"
+      class="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center px-4"
+      @click.self="onBackdropClick"
     >
-      <!-- Фон -->
-      <div
-        class="fixed inset-0 bg-black/60 pointer-events-auto"
-        @click="onBackdropClick"
-      ></div>
-
-      <!-- Модалка -->
-      <transition name="slide-down " appear>
+      <!-- Прокручиваемая модалка -->
+      <transition name="slide-down" appear>
         <div
           v-show="modelValue"
-          class=" bg-white rounded-xl overflow-y-auto shadow-xl max-w-lg w-full max-h-[99vh] z-50 flex flex-col pointer-events-auto"
+          class="overflow-auto max-h-screen w-full pointer-events-auto"
         >
+          <div class="bg-white rounded-xl shadow-xl max-w-lg w-full mx-auto mt-20">
+            <!-- Верх модалки -->
+            <div class="border-b flex justify-end">
+              <button
+                @click="close"
+                class="p-3 text-2xl text-[#bfbfbf] cursor-pointer"
+              >
+                ×
+              </button>
+            </div>
 
-          <div class="overflow-y-auto max-h-[99vh] max-sm:max-h-[85vh] scrollbar-hide">
-						<div class="border-b flex justify-end ">
-							<button
-							@click="close"
-							class=" p-3 text-2xl text-[#bfbfbf] cursor-pointer"
-							>
-								×
-							</button>
-						</div>
-						<slot />
+            <!-- Контент -->
+            <div>
+              <slot />
+            </div>
           </div>
         </div>
       </transition>
     </div>
   </transition>
 </template>
+
 
 <style scoped>
 /* Фон */

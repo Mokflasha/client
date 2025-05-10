@@ -9,6 +9,11 @@
         font-family: Roboto, sans-serif;
         font-weight: 500;
     }
+		html, body {
+  		overflow: auto !important;
+			height: auto;
+		}
+
 		.title{
 			font-family: Roboto;
 			font-style: italic;
@@ -70,5 +75,5 @@ a, button {
 
 button:hover,
 a:hover {
-    @apply sm:transition-[all_.2s_ease-in-out] hover:scale-[.97] sm:hover:brightness-[.9] max-sm:bg-[#5029de57]
+    @apply sm:transition-[all_.2s_ease-in-out] hover:scale-[.97] sm:hover:brightness-[.9] 
 }

@@ -11,43 +11,60 @@ import EntryConditionsModal from "@/components/Modals/EntryConditionsModal.vue";
 import PrivacyAgreementModal from "@/components/Modals/PrivacyAgreementModal.vue";
 import PolicyModal from "@/components/Modals/PolicyModal.vue";
 
-const touchedIndex = ref<number | null>(null)
-const isTouchedRegister = ref(false)
-const justReleasedIndex = ref<number | null>(null)
 
-const handleTouchStart = (index: number) => {
-  touchedIndex.value = index
-  justReleasedIndex.value = null
-}
 
+
+const touchedIndex = ref<number | null>(null);
+const isTouchedRegister = ref(false);
+const justReleasedIndex = ref<number | null>(null);
+const justReleasedRegister = ref(false);
+
+// Обработчик для касания
+const handleTouchStart = (index?: number) => {
+  if (typeof index === 'number') {
+    touchedIndex.value = index;
+    justReleasedIndex.value = null;
+  } else {
+    isTouchedRegister.value = true;
+    justReleasedRegister.value = false;
+  }
+};
+
+// Обработчик для отпускания
 const handleTouchEnd = () => {
   if (touchedIndex.value !== null) {
-    justReleasedIndex.value = touchedIndex.value
+    justReleasedIndex.value = touchedIndex.value;
     setTimeout(() => {
       if (justReleasedIndex.value === touchedIndex.value) {
-        justReleasedIndex.value = null
+        justReleasedIndex.value = null;
       }
-    }, 250)
+    }, 250);
+    touchedIndex.value = null;
+  } else if (isTouchedRegister.value) {
+    justReleasedRegister.value = true; // Цвет остается темным
+    isTouchedRegister.value = false;
   }
-  touchedIndex.value = null
-}
+};
 
+// Добавление события на touchstart
 onMounted(() => {
-  document.addEventListener('touchstart', handleOutsideTouch, true)
-})
+  document.addEventListener('touchstart', handleOutsideTouch, true);
+});
 
+// Удаление события на touchstart
 onBeforeUnmount(() => {
-  document.removeEventListener('touchstart', handleOutsideTouch, true)
-})
+  document.removeEventListener('touchstart', handleOutsideTouch, true);
+});
 
+// Обработчик для касания вне кнопки
 const handleOutsideTouch = (e: TouchEvent) => {
-  const target = e.target as HTMLElement
+  const target = e.target as HTMLElement;
   if (!target.closest('.ripple-btn')) {
-    touchedIndex.value = null
-    justReleasedIndex.value = null
+    touchedIndex.value = null;
+    justReleasedIndex.value = null;
+		justReleasedRegister.value = false;
   }
 }
-
 const TOURNAMENT_DATE = "2025-05-24T00:00:00";
 
 const showFeeModal = ref(false);
@@ -193,18 +210,30 @@ const leave = (el: Element, done: () => void) => {
         <div class="text-center font-medium text-[clamp(1rem,2vw,1.5rem)]">
           <h2 class="text-[27px] sm:hidden font-medium mt-[20px]">Махачкала, Дворец спорта "Автодор"</h2>
           <h2 class="text-[27px] sm:hidden font-medium">24–25 Мая, 2025</h2>
-          <Button
+					<Button
 						@click="openForm"
 						@touchstart="handleTouchStart"
 						@touchend="handleTouchEnd"
 						@touchcancel="handleTouchEnd"
-						variant="primary"
-						class="text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
-						:class="isTouchedRegister
-							? 'bg-[#241259] text-white scale-90 shadow-[0_0_18px_#5029de]'
-							: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white sm:hidden hover:shadow-[0_0_14px_#5029de]'"
-					>Зарегистрироваться
-          </Button>
+						class="max-sm:ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+						:class="[
+							isTouchedRegister
+								? 'text-white shadow-[0_0_30px_#5029de]'
+								: justReleasedRegister
+								? 'text-white shadow-[0_0_20px_#1e0c9f]'
+								: 'hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]' // В спокойном состоянии (по умолчанию)
+						]"
+						:style="{
+							background: isTouchedRegister
+								? 'linear-gradient(to right, #7b68ee, #967feb)' // Касание
+								: justReleasedRegister
+								? 'linear-gradient(to right, #1e0c9f, #1e0c9f)' // После отпускания
+								: 'linear-gradient(to right, #5029de, #4124ab)' // Спокойное состояние (по умолчанию)
+						}"
+					>
+						Зарегистрироваться
+					</Button>
+
 
         </div>
       </div>
@@ -244,7 +273,6 @@ const leave = (el: Element, done: () => void) => {
 											? 'bg-[#1e0c9f]/80 text-white shadow-[0_0_20px_#1e0c9f]'
 											: 'bg-black/30 hover:bg-[#5029de]/80 hover:text-white hover:shadow-[0_0_14px_#5029de]'
 								]"
-								:style="{ '-webkit-tap-highlight-color': 'transparent' }"
 							>
 								{{ item.label }}
 							</a>
@@ -324,6 +352,7 @@ const leave = (el: Element, done: () => void) => {
   cursor: pointer;
   user-select: none;
 	transition: all 0.3s ease;
+	background: rgb(80, 41, 222);
 }
 
 /* Для анимации эффекта при нажатии */
@@ -331,7 +360,6 @@ const leave = (el: Element, done: () => void) => {
   content: '';
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
   animation: ripple-effect 0.6s linear;
 }
 
@@ -380,10 +408,12 @@ const leave = (el: Element, done: () => void) => {
   .ripple-btn {
     padding: 10px 20px;
     font-size: 14px;
+		background: rgb(80, 41, 222);
   }
 
   .ripple-btn:active {
     transform: scale(0.95);
+		background: rgb(80, 41, 222);
   }
 }
 </style>
