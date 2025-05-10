@@ -18,7 +18,7 @@ const emit = defineEmits<{
       :modelValue="props.modelValue"
       @update:modelValue="(val) => emit('update:modelValue', val)"
   >
-    <div class="max-h-72 pr-2">
+    <div class="max-h-72 h-full pr-2">
       <h3 class="text-xl font-semibold text-center mb-6">
         Политика конфиденциальности
       </h3>

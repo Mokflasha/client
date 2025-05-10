@@ -17,7 +17,7 @@ const close = () => {
 
 <template>
   <BaseModal :modelValue="props.modelValue" @update:modelValue="val => emit('update:modelValue', val)">
-    <div class="relative w-full max-h-[80vh]  px-1 text-sm text-zinc-700 leading-relaxed">
+    <div class="relative w-full h-full px-1 text-sm text-zinc-700 leading-relaxed">
 
       <h3 class="text-xl font-semibold text-center mb-6">Политика конфиденциальности</h3>
 
