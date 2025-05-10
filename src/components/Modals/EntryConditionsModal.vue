@@ -17,7 +17,7 @@ const emit = defineEmits<{
       :modelValue="props.modelValue"
       @update:modelValue="val => emit('update:modelValue', val)"
   >
-    <div class="text-sm text-zinc-700 max-h-[80vh]  leading-relaxed px-1">
+    <div class="text-sm text-zinc-700 h-full leading-relaxed px-1">
       <h3 class="text-xl font-semibold text-center mb-6">Условия допуска</h3>
 
       <p class="mb-4 font-medium">Взнос за участие:</p>
