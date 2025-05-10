@@ -41,7 +41,7 @@ onBeforeUnmount(() => unlockScroll())
           v-show="modelValue"
           class="overflow-auto max-h-screen w-full pointer-events-auto"
         >
-          <div class="bg-white rounded-xl shadow-xl max-w-lg w-full mx-auto mt-20">
+          <div class="bg-white rounded-xl shadow-xl max-w-lg w-full mx-auto mt-20 mb-10">
             <!-- Верх модалки -->
             <div class="border-b flex justify-end">
               <button

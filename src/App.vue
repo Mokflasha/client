@@ -215,7 +215,7 @@ const leave = (el: Element, done: () => void) => {
 						@touchstart="handleTouchStart"
 						@touchend="handleTouchEnd"
 						@touchcancel="handleTouchEnd"
-						class="max-sm:ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
+						class="sm:hidden max-sm:ripple-btn text-[clamp(.9rem,1.5vw,1.25rem)] uppercase rounded-3xl w-fit transition-all duration-150 ease-out"
 						:class="[
 							isTouchedRegister
 								? 'text-white shadow-[0_0_30px_#5029de]'
